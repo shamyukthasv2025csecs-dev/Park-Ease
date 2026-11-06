@@ -1,10 +1,11 @@
 # ParkEase – Smart Parking Lot Management System
 
-ParkEase is a simple Java console-based parking application that follows the project requirement for managing 20 parking slots, vehicle types, ticket generation, billing, and MySQL-backed persistence.
+ParkEase is a Java and MySQL parking application with a browser-based dashboard. Java serves the pages and handles parking rules, while HTML and CSS provide the interface.
 
 ## Project Structure
 
 - `src/` – Java source files
+- `web/index.html` and `web/styles.css` – browser interface
 - `database/parkease.sql` – MySQL database creation script
 - `config/db.properties` – database configuration for local MySQL setup
 - `lib/` – JDBC driver jar
@@ -63,7 +64,7 @@ Place the jar in `lib/`.
 
 ### 4. Configure Database Connection
 
-Edit `config/db.properties` and update the username/password if needed:
+Copy `config/db.properties.example` to `config/db.properties`, then update the username/password for your MySQL account:
 
 ```properties
 db.url=jdbc:mysql://localhost:3306/parkease_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
@@ -71,7 +72,7 @@ db.user=root
 db.password=
 ```
 
-If you use a password-protected MySQL user, replace `db.user` and `db.password` accordingly.
+If you use a password-protected MySQL user, replace `db.user` and `db.password` accordingly. The local `config/db.properties` file is ignored by Git so your password is not committed.
 
 ## Compile
 
@@ -81,14 +82,26 @@ From the project root:
 javac -cp "lib/mysql-connector-j-8.4.0.jar" -d out src/*.java
 ```
 
-## Run
+## Run the website
 
-```bash
-java -cp "out;lib/mysql-connector-j-8.4.0.jar" Main
+From the project root in PowerShell:
+
+```powershell
+javac -cp "lib\mysql-connector-j-8.4.0.jar" -d out src\*.java
+java -cp "out;lib\mysql-connector-j-8.4.0.jar" WebServer
+```
+
+Keep the terminal open, then visit [http://localhost:8080](http://localhost:8080). Press `Ctrl+C` in the terminal to stop the server. No web framework or JavaScript is required.
+
+The original menu-driven console app can still be started with:
+
+```powershell
+java -cp "out;lib\mysql-connector-j-8.4.0.jar" Main
 ```
 
 ## Features
 
+- Browser dashboard for parking and exits
 - Park bike, car, and truck vehicles
 - Allocate first available appropriate slot
 - Enforce truck two-slot requirement
@@ -114,25 +127,9 @@ vehicles (1) ───< parking_tickets (many)
 - `ticket_slots` links ticket to reserved slots.
 - `payments` records collected charges.
 
-## Sample Console Output
+## Browser Interface
 
-```text
-========== PARKEASE ==========
-1. Park Vehicle
-2. Exit Vehicle
-3. View Parking Slot Map
-4. View Summary
-5. View Parking History
-6. View Payment History
-7. Quit
-Enter your choice: 1
-Vehicle type (1-Bike, 2-Car, 3-Truck): 2
-Vehicle registration number: TN37AB1234
-Owner name: Aman
-Ticket generated successfully.
-Ticket Number: T-1001
-Allocated Slot(s): [1]
-```
+The dashboard displays live slot availability, revenue and ticket/payment history. Use the **Park a vehicle** form to issue a ticket and the **Vehicle exit** form to complete it and record payment.
 
 ## Notes
 

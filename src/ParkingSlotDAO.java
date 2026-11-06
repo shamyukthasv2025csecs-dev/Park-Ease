@@ -7,36 +7,14 @@ import java.util.List;
 
 public class ParkingSlotDAO {
     public void initializeSlots() throws SQLException {
-        String selectSql = "SELECT COUNT(*) FROM parking_slots";
+        String insertSql = "INSERT IGNORE INTO parking_slots (slot_id, is_occupied, vehicle_id) VALUES (?, 0, NULL)";
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement selectStatement = connection.prepareStatement(selectSql);
-             ResultSet resultSet = selectStatement.executeQuery()) {
-            if (resultSet.next() && resultSet.getInt(1) == 20) {
-                return;
+             PreparedStatement statement = connection.prepareStatement(insertSql)) {
+            for (int slotId = 1; slotId <= 20; slotId++) {
+                statement.setInt(1, slotId);
+                statement.addBatch();
             }
-        }
-
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                String deleteSql = "DELETE FROM parking_slots";
-                try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
-                    deleteStatement.executeUpdate();
-                }
-
-                String insertSql = "INSERT INTO parking_slots (slot_id, is_occupied, vehicle_id) VALUES (?, 0, NULL)";
-                try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
-                    for (int slotId = 1; slotId <= 20; slotId++) {
-                        insertStatement.setInt(1, slotId);
-                        insertStatement.addBatch();
-                    }
-                    insertStatement.executeBatch();
-                }
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            }
+            statement.executeBatch();
         }
     }
 

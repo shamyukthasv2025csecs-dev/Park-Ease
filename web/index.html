@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ParkEase | Smart Parking</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">Park<span>Ease</span></a>
+    <nav class="site-nav" aria-label="Dashboard sections">
+      <a href="#slots">Slots</a>
+      <a href="#history">Parking history</a>
+      <a href="#payments">Payments</a>
+    </nav>
+    <span class="live"><i></i> PARKING CONTROL</span>
+  </header>
+  <main class="page">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">SMART PARKING LOT</p>
+        <h1>Good parking starts here.</h1>
+        <p class="subtitle">Manage arrivals, exits and payments from one simple dashboard.</p>
+      </div>
+      <div class="capacity-badge">
+        <span>LOT CAPACITY</span>
+        <strong>20 <small>slots</small></strong>
+      </div>
+    </section>
+
+    {{MESSAGE}}
+
+    <section class="actions-grid">
+      <article class="card">
+        <div class="section-title">
+          <span class="icon">+</span>
+          <div><h2>Park a vehicle</h2><p>Create a ticket and assign a slot.</p></div>
+        </div>
+        <form action="/park" method="post">
+          <label for="vehicleType">Vehicle type</label>
+          <select id="vehicleType" name="vehicleType" required>
+            <option value="">Choose vehicle</option>
+            <option value="BIKE">Bike · Rs. 10/hour · 1 slot</option>
+            <option value="CAR">Car · Rs. 30/hour · 1 slot</option>
+            <option value="TRUCK">Truck · Rs. 60/hour · 2 consecutive slots</option>
+          </select>
+          <label for="vehicleNumber">Registration number</label>
+          <input id="vehicleNumber" name="vehicleNumber" maxlength="12" placeholder="TN37AB1234" required>
+          <label for="ownerName">Owner name</label>
+          <input id="ownerName" name="ownerName" maxlength="100" placeholder="Enter owner name" required>
+          <button type="submit" class="button button-primary">Park vehicle <span>→</span></button>
+        </form>
+      </article>
+      <article class="card">
+        <div class="section-title">
+          <span class="icon exit-icon">↗</span>
+          <div><h2>Vehicle exit</h2><p>Complete a ticket and collect payment.</p></div>
+        </div>
+        <form action="/exit" method="post">
+          <label for="ticketNumber">Ticket number</label>
+          <input id="ticketNumber" name="ticketNumber" placeholder="T-1001" required>
+          <div class="billing-note">
+            <strong>Billing reminder</strong>
+            <span>Partial hours round up. Maximum charge is 8 hours.</span>
+          </div>
+          <button type="submit" class="button button-dark">Process exit <span>→</span></button>
+        </form>
+      </article>
+    </section>
+
+    {{DASHBOARD}}
+  </main>
+  <footer>ParkEase <span>·</span> Java and MySQL parking management</footer>
+</body>
+</html>

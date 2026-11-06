@@ -156,5 +156,5 @@ public class Main {
 /*
 cd C:\ParkEase\Park-Ease
 javac -cp "lib\mysql-connector-j-8.4.0.jar" -d out src\*.java
-java -cp "out;lib\mysql-connector-j-8.4.0.jar" Main
+java -cp "out;lib\mysql-connector-j-8.4.0.jar" WebServer
  */
