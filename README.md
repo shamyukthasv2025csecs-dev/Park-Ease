@@ -93,6 +93,16 @@ java -cp "out;lib\mysql-connector-j-8.4.0.jar" WebServer
 
 Keep the terminal open, then visit [http://localhost:8080](http://localhost:8080). Press `Ctrl+C` in the terminal to stop the server. No web framework or JavaScript is required.
 
+## Run the slot allocation test
+
+```powershell
+javac -cp "lib\mysql-connector-j-8.4.0.jar" -d out src\*.java
+javac -cp "out;lib\mysql-connector-j-8.4.0.jar" -d out tests\ParkingLotAllocationTest.java
+java -cp "out;lib\mysql-connector-j-8.4.0.jar" ParkingLotAllocationTest
+```
+
+The test checks first-fit allocation, truck consecutive slots, skipping occupied spaces, and a full lot.
+
 The original menu-driven console app can still be started with:
 
 ```powershell
